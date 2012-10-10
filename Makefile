@@ -6,6 +6,8 @@ CC=gcc
 
 all: telnetecho
 
+telnetecho: helper.o
+
 clean:
 	rm -f telnetecho
 

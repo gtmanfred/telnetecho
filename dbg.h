@@ -20,7 +20,6 @@
 #define log_info(M, ...) fprintf(stderr, "[INFO] (%s:%d: %s) " M "\n", __FILE__, __LINE__, __FUNCTION__,  ##__VA_ARGS__)
 
 #define check(A, M, ...) if(!(A)) { log_err(M, ##__VA_ARGS__); errno=0; goto error; }
-#define check_clean(A, M, ...) if(!(A)) { log_err(M, ##__VA_ARGS__); errno=0; continue; }
 
 #define sentinel(M, ...) { log_err(M, ##__VA_ARGS__); errno=0; goto error; }
 

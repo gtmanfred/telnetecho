@@ -6,17 +6,18 @@ CC=gcc
 
 all: telnetecho
 
-telnetecho: helper.o
+telnetecho: buffers.o
 
 clean:
+	rm -f *.o
 	rm -f telnetecho
 
 install:
 	install -Dm755 telnetecho $(PREFIX)/bin/telnetecho
-	install -Dm644 telnetecho.service /etc/systemd/system/telnetecho.service
+	install -Dm644 telnetecho@.service /etc/systemd/system/telnetecho@.service
 	install -Dm644 telnetecho.socket /etc/systemd/system/telnetecho.socket
 
 uninstall:
 	rm -f $(PREFIX)/bin/telnetecho 
-	rm -f /etc/systemd/system/telnetecho.service
+	rm -f /etc/systemd/system/telnetecho@.service
 	rm -f /etc/systemd/system/telnetecho.socket

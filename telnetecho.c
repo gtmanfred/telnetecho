@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <systemd/sd-daemon.h>
 
-#include "dbg.h"
 #include "buffers.h"
 
 #define	MAXLEN		10
@@ -12,7 +11,7 @@ int main(int argc, char *argv[]) {
 
 	fprintf(stderr, "%s\n", "socket activation ftw!");
 	rc = sd_listen_fds(0);
-	check(rc >= 0 , "Failed to acquire sockets from systemd - %s",strerror(-rc));
+	if (rc < 0) err(EXIT_FAILURE, "Failed to acquire sockets from systemd - %s",strerror(-rc));
 
 	fd = SD_LISTEN_FDS_START;
 	
@@ -24,9 +23,5 @@ int main(int argc, char *argv[]) {
 	}
 
 	exit(0);
-
-error:
-
-	exit(rc);
 
 }

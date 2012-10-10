@@ -9,5 +9,7 @@
 Description=telnet echo service
 
 [Service]
-ExecStart=/usr/bin/telnetecho
+ExecStart=/bin/cat
+StandardInput=socket
+StandardOutput=socket
 Sockets=telnetecho.socket

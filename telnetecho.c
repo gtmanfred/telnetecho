@@ -18,14 +18,18 @@
 ***/
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <systemd/sd-daemon.h>
+#include <sys/socket.h>
+#include <string.h>
+#include <err.h>
 
 #include "buffers.h"
 
 #define	MAXLEN		10
 
 int main(int argc, char *argv[]) {
-	int fd, rc;
+	int fd, rc, conn;
 	char buffer[MAXLEN];
 
 	fprintf(stderr, "%s\n", "socket activation ftw!");
@@ -35,9 +39,10 @@ int main(int argc, char *argv[]) {
 	fd = SD_LISTEN_FDS_START;
 	
 	while ( 1 ) {
-		
-		readbuffer(fd, buffer, MAXLEN-1);
-		writebuffer(fd, buffer, strlen(buffer));
+
+		conn = accept(fd, NULL, NULL);
+		readbuffer(conn, buffer, MAXLEN-1);
+		writebuffer(conn, buffer, strlen(buffer));
 
 	}
 

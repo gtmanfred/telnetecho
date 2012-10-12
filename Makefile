@@ -7,12 +7,12 @@
 #  the Free Software Foundation; either version 2.1 of the License, or
 #  (at your option) any later version.
 PREFIX?=/usr
-CFLAGS=-Wall -g -DNEBUG -I$(PREFIX)/include/systemd
+CFLAGS=-Wall -g -DNEBUG -I$(PREFIX)/include/systemd -pthread
 LDFLAGS=-L$(PREFIX)/include/systemd
-LDLIBS = -lsystemd-daemon
+LDLIBS = -lsystemd-daemon -lm
 CC=gcc
 
-all: telnetecho
+all: telnetecho test
 
 telnetecho: buffers.o
 

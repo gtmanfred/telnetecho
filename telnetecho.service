@@ -11,3 +11,4 @@ Description=telnet echo service
 [Service]
 ExecStart=/usr/bin/telnetecho
 Sockets=telnetecho.socket
+StandardError=syslog

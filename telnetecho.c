@@ -23,26 +23,38 @@
 #include <sys/socket.h>
 #include <string.h>
 #include <err.h>
+#include <pthread.h>
 
 #include "buffers.h"
 
 #define	MAXLEN		10
 
-int main(int argc, char *argv[]) {
-	int fd, rc, conn;
-	char buffer[MAXLEN];
 
-	fprintf(stderr, "%s\n", "socket activation ftw!");
+void *threader( void *d ) {
+	char buffer[MAXLEN];
+	int fd = (int)d;
+	while ( 1 ) {
+		readbuffer(fd, buffer, MAXLEN-1);
+		writebuffer(fd, buffer, strlen(buffer));
+	}
+}
+
+int main(int argc, char *argv[]) {
+	int  fd, conn, rc, i;
+	pthread_t thread[50];
+
 	rc = sd_listen_fds(0);
 	if (rc < 0) err(EXIT_FAILURE, "Failed to acquire sockets from systemd - %s",strerror(-rc));
 
 	fd = SD_LISTEN_FDS_START;
+
+	i = 0;
 	
-	while ( 1 ) {
+	while ( 1 ){
 
 		conn = accept(fd, NULL, NULL);
-		readbuffer(conn, buffer, MAXLEN-1);
-		writebuffer(conn, buffer, strlen(buffer));
+		if (conn < 0) err(EXIT_FAILURE, "Failed to accept socket - %s", strerror(-conn));
+		pthread_create(&(thread[i++]), NULL, threader, (void *)conn);
 
 	}
 

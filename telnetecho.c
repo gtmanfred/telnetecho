@@ -18,7 +18,10 @@
 ***/
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <systemd/sd-daemon.h>
+#include <err.h>
+#include <string.h>
 
 #include "buffers.h"
 
